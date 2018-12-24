@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
  * <p>
@@ -23,7 +26,23 @@ package leetcode;
 public class A003 {
     class Solution {
         public int lengthOfLongestSubstring(String s) {
-            return 0;
+            return window(s);
+        }
+
+        private int window(String s) {
+            int max = 0;
+            Map<Integer, Character> index2CharSubStrMap = new HashMap<>();
+            for (int i = 0, j = 0; j < s.length() && i < s.length(); ) {
+                if (!index2CharSubStrMap.containsValue(s.charAt(j))) {
+                    index2CharSubStrMap.put(j, s.charAt(j));
+                    j++;
+                } else {
+                    index2CharSubStrMap.remove(i);
+                    i++;
+                }
+                max = max > index2CharSubStrMap.size() ? max : index2CharSubStrMap.size();
+            }
+            return max;
         }
     }
 }
